@@ -1,0 +1,38 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector<int>inorder;   // Vector to store nodes values explored in an inorder traversal fashion
+        if(!root)return inorder;  // If the tree is empty, then return empty vector.
+        stack<struct TreeNode*>st;  // Stack to perform the inorder traversal and give same feel as recursion.
+        
+        while(root){             // Until we hit the end, keep pushing left child.
+            st.push(root);
+            root = root->left;
+        }
+        
+        while(!st.empty()){  
+            struct TreeNode* nCurrent = st.top(); 
+            st.pop();
+            inorder.push_back(nCurrent->val);    
+            root = nCurrent->right;            
+            while(root){                       
+                st.push(root);
+                root = root->left;
+            }
+        }
+        
+        return inorder;
+    }
+};
