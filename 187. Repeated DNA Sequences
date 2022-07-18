@@ -1,0 +1,30 @@
+class Solution {
+public:
+    vector<string> findRepeatedDnaSequences(string s) {
+        unordered_map<char, int> let_to_bits = {
+            {'A', 0},
+            {'C', 1},
+            {'G', 2},
+            {'T', 3},
+        };
+        unordered_set<int> int_words;
+        unordered_set<string> result;
+        int len = 10;
+        int n = (int)s.length();
+        for (int start = 0; start + len - 1 < n; ++start) {
+            string dna = s.substr(start, len);
+            if (result.count(dna)) { continue; }
+            int int_from_dna = 0;
+            for (char ch : dna) {
+                int_from_dna <<= 2;
+                int_from_dna |= let_to_bits[ch];
+            }
+            if (int_words.count(int_from_dna)) {
+                result.insert(dna);
+            } else {
+                int_words.insert(int_from_dna);
+            }
+        }
+        return {result.begin(), result.end()};
+    }
+};
