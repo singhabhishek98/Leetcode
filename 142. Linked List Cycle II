@@ -1,0 +1,43 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *detectCycle(ListNode *head) {
+       
+        
+        //If Linked List doesn't contain a cycle or is of length 0 or 1
+        if(!head || !head -> next){
+            return NULL;
+        }
+        //If linked list contains a cycle or is of length greater than 2
+         ListNode *slow = head, *fast = head;
+        
+        //we run the while loop till fast is not null, fast->next is not null and slow is not               equal to fast
+        
+        do{
+             slow = slow -> next;
+            fast = fast ->next->next;
+        }while(fast && fast -> next && slow != fast);
+           
+        // If it does not contain a cycle
+            if(! fast || !fast -> next){
+                return NULL;
+            }
+        
+        // Find the beginning of cycle
+        ListNode *h1 = head, *h2 = slow;
+        
+        while(h1 != h2){
+            h1 = h1 -> next;
+            h2 = h2 -> next;
+        }
+        return h1;
+        
+    }
+};
