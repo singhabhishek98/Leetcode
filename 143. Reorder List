@@ -1,0 +1,47 @@
+struct ListNode* reverseList(struct ListNode *head)
+{
+    if (head==NULL) return NULL;
+    struct ListNode *pLast=head, *pCur=head->next, *pNext=NULL;
+    head->next=NULL;
+
+    while (pCur!=NULL)
+    {
+        pNext = pCur->next;
+        pCur->next = pLast;
+
+        pLast = pCur;
+        pCur = pNext;
+    }
+    return pLast;
+}
+ 
+void reorderList(struct ListNode* head) 
+{
+    if (head==NULL) return NULL;
+    int i,len;
+    struct ListNode *pCur=head;
+
+    for(len=0; pCur; len++, pCur=pCur->next); 
+
+    pCur=head;
+    for(i=1; i<(len+1)/2 ; i++, pCur=pCur->next);
+    
+    struct ListNode *pLeft = head;
+    struct ListNode *pRight = pCur->next;
+    pCur->next = NULL;
+    pRight = reverseList(pRight);
+
+    struct ListNode *pLeftNext, *pRightNext;
+    while (pLeft && pRight) {
+        pLeftNext = pLeft->next;
+        pRightNext = pRight->next;
+        
+        pLeft->next = pRight;
+        pRight->next = pLeftNext;
+        
+        pLeft = pLeftNext;
+        pRight = pRightNext;
+    }
+    
+    return head;
+}
