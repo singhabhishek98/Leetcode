@@ -1,0 +1,51 @@
+typedef struct stack{
+    int val;
+    int min; 
+    struct stack* next;
+}MinStack;
+
+MinStack* Top=NULL;
+
+MinStack* minStackCreate() {
+    Top = NULL;
+    return Top;
+}
+
+void minStackPush(MinStack* obj, int val) {
+   
+    MinStack * new_layer = (MinStack *)malloc(sizeof(MinStack));
+    
+    new_layer->next = Top;
+    Top = new_layer;  
+  
+    Top->val = val;
+    if(Top->next == NULL) 
+    {
+      Top->min = val;
+    }
+    else
+    {
+      if(Top->next->min > val) 
+      {
+        Top->min = val;  
+      }
+      else
+      {
+        Top->min = Top->next->min;
+      }
+    }
+}
+
+void minStackPop(MinStack* obj) {
+  MinStack* Temp = Top;
+  Top = Top->next;
+  free(Temp); 
+}
+
+int minStackTop(MinStack* obj) {
+  return Top->val;
+}
+
+int minStackGetMin(MinStack* obj) {
+  return Top->min;
+}
